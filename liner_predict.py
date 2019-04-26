@@ -43,12 +43,12 @@ def olsb(train_file,test_file,k):
         for j in range(length):
             diff = mat_a[i, :]-mat_x[j,:]#计算当前测试点和所有训练点的距离
             weight[j, j] = math.exp(diff * diff.T / (-2.0 * k ** 2))#权重矩阵赋值
-            mat_t = mat_x.T * (weight * mat_x)
-            if np.linalg.det(mat_t) == 0.0:#如果没有逆矩阵，求广义逆矩阵
-                mat_b = np.linalg.pinv(mat_t) * (mat_x.T * (weight * mat_y))
-            else:
-                mat_b = mat_t.I * (mat_x.T * (weight * mat_y))
-            ans.append(float(mat_a[i, :] * mat_b))
+        mat_t = mat_x.T * (weight * mat_x)
+        if np.linalg.det(mat_t) == 0.0:#如果没有逆矩阵，求广义逆矩阵
+            mat_b = np.linalg.pinv(mat_t) * (mat_x.T * (weight * mat_y))
+        else:
+            mat_b = mat_t.I * (mat_x.T * (weight * mat_y))
+        ans.append(float(mat_a[i, :] * mat_b))
     return ans
 
 def data_write(filename,ans):#结果写回
